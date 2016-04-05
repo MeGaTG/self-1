@@ -19,10 +19,10 @@ cd Self-Bot
 ./launch.sh # Will ask you for a phone number & confirmation code.
 ```
 
-BeatBot Team
+special Team
 -----------------
-
 [mrlife](http://telegram.me/mrlife)<br>
+[amirhossein](http://telegram.me/sudo1)<br>
 
 special team  Channel
 -----------------
