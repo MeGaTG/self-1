@@ -2,7 +2,7 @@ Self-Bot V2
 ============
 
 A Telegram Bot based on [DBTeam bot](https://github.com/Josepdal/DBTeam).
-
+tnx to beatbot team
 Installation
 ------------
 ```bash
@@ -22,14 +22,9 @@ cd Self-Bot
 BeatBot Team
 -----------------
 
-[Amirho3inf](http://telegram.me/amirho3inf)<br>
-[NariMan Master](http://telegram.me/nawr_i_man)<br>
-[YellowHat](http://telegram.me/yellowhat)<br>
-[FastReaCtor](http://telegram.me/fastreactor)<br>
-[ThisIsAmirh](http://telegram.me/thisisamirh)<br>
-[Mr.Puker](http://telegram.me/puker)<br>
+[mrlife](http://telegram.me/mrlife)<br>
 
-BeatBot Team Channel
+special team  Channel
 -----------------
 
-[BeatBot Team](http://telegram.me/beatbot_team)
+[special Team](http://telegram.me/specialteam1)
