@@ -57,7 +57,7 @@ local function enable_plugin( plugin_name )
   print('checking if '..plugin_name..' exists')
   -- Check if plugin is enabled
   if plugin_enabled(plugin_name) then
-    return '💢 plugin '..plugin_name..' is enabled. '
+    return 'پلاگین '..plugin_name..'فعال شده است. '
   end
   -- Checks if plugin exists
   if plugin_exists(plugin_name) then
@@ -68,19 +68,19 @@ local function enable_plugin( plugin_name )
     -- Reload the plugins
     return reload_plugins( )
   else
-    return '💢 plugins '..plugin_name..' does not exists.'
+    return 'پلاگین'..plugin_name..' وجود ندارد.'
   end
 end
 
 local function disable_plugin( name, chat )
   -- Check if plugins exists
   if not plugin_exists(name) then
-    return '💢 plugins '..name..' does not exists.'
+    return 'پلاگین  '..name..' وجود ندارد.'
   end
   local k = plugin_enabled(name)
   -- Check if plugin is enabled
   if not k then
-    return '💢 plugin '..name..' disabled on this chat.'
+    return 'پلاگین '..name..' در این گروه غیرفعال شد.'
   end
   -- Disable and reload
   table.remove(_config.enabled_plugins, k)
@@ -90,7 +90,7 @@ end
 
 local function disable_plugin_on_chat(receiver, plugin)
   if not plugin_exists(plugin) then
-    return '💢 Plugin doesn\'t exists.'
+    return 'پلاگین وجود ندارد'
   end
 
   if not _config.disabled_plugin_on_chat then
@@ -104,25 +104,25 @@ local function disable_plugin_on_chat(receiver, plugin)
   _config.disabled_plugin_on_chat[receiver][plugin] = true
 
   save_config()
-  return '💢 plugin '..plugin..' disabled on this chat.'
+  return 'پلاگین  '..plugin..' غیرفعال شد در این گروه.'
 end
 
 local function reenable_plugin_on_chat(receiver, plugin)
   if not _config.disabled_plugin_on_chat then
-    return '💢 There aren\'t any disabled plugins.'
+    return 'پلاگین غیرفعال وجود ندارد.'
   end
 
   if not _config.disabled_plugin_on_chat[receiver] then
-  	return '💢 There aren\'t any disabled plugins.'
+  	return 'پلاگین غیرفعال وجود ندارد.'
   end
 
   if not _config.disabled_plugin_on_chat[receiver][plugin] then
-    return '💢 This plugin is not disabled'
+    return 'پلاگین غیرفعال نیست '
   end
 
   _config.disabled_plugin_on_chat[receiver][plugin] = false
   save_config()
-  return '💢 plugin '..plugin..' is enabled again'
+  return 'پلاگین '..plugin..' دوباره فعال شد'
 end
 
 local function run(msg, matches)
@@ -134,7 +134,7 @@ local function run(msg, matches)
     end
 
     -- Re-enable a plugin for this chat
-    if matches[1] == 'enable' and matches[3] == 'chat' then
+    if matches[1] == '+' and matches[3] == 'chat' then
       local receiver = get_receiver(msg)
       local plugin = matches[2]
       print("enable "..plugin..' on this chat')
@@ -142,14 +142,14 @@ local function run(msg, matches)
     end
 
     -- Enable a plugin
-    if matches[1] == 'enable' then
+    if matches[1] == '+' then
       local plugin_name = matches[2]
       print("enable: "..matches[2])
       return enable_plugin(plugin_name)
     end
 
     -- Disable a plugin on a chat
-    if matches[1] == 'disable' and matches[3] == 'chat' then
+    if matches[1] == '-' and matches[3] == 'chat' then
       local plugin = matches[2]
       local receiver = get_receiver(msg)
       print("disable "..plugin..' on this chat')
@@ -157,13 +157,13 @@ local function run(msg, matches)
     end
 
     -- Disable a plugin
-    if matches[1] == 'disable' then
+    if matches[1] == '-' then
       print("disable: "..matches[2])
       return disable_plugin(matches[2])
     end
 
     -- Reload all the plugins!
-    if matches[1] == 'reload' then
+    if matches[1] == '=' then
       return reload_plugins(true)
     end
   else
@@ -174,11 +174,11 @@ end
 return {
   patterns = {
     "^#plugins$",
-    "^#plugins? (enable) ([%w_%.%-]+)$",
-    "^#plugins? (disable) ([%w_%.%-]+)$",
-    "^#plugins? (enable) ([%w_%.%-]+) (chat)",
-    "^#plugins? (disable) ([%w_%.%-]+) (chat)",
-    "^#plugins? (reload)$" },
+    "^#plugins? (+) ([%w_%.%-]+)$",
+    "^#plugins? (-) ([%w_%.%-]+)$",
+    "^#plugins? (+) ([%w_%.%-]+) (chat)",
+    "^#plugins? (-) ([%w_%.%-]+) (chat)",
+    "^#plugins? (=)$" },
   run = run
 }
 
