@@ -100,33 +100,33 @@ local function instagramUser(msg, query)
     end
 	local jdat = json:decode(jstr)
 	if #jdat.data == 0 then
-		send_msg(receiver,"#Error\nUsername not found",ok_cb,false)
+		send_msg(receiver,"#خطا\nنام کاربری مورد نظر یافت نشد",ok_cb,false)
 	end
 	if jdat.meta.error_message then
-		send_msg(receiver,"#Error\n"..jdat.meta.error_message,ok_cb,false)
+		send_msg(receiver,"#خطا\n"..jdat.meta.error_message,ok_cb,false)
 	end
 	local id = jdat.data[1].id
 	local gurl = "https://api.instagram.com/v1/users/"..id.."/?access_token="..access_token
 	local ress = https.request(gurl)
 	local user = json:decode(ress)
    	if user.meta.error_message then
-		send_msg(receiver,"#Error\n"..user.meta.error_message,ok_cb,false)
+		send_msg(receiver,"#خطا\n"..user.meta.error_message,ok_cb,false)
 	end
 	local text = ''
 	if user.data.bio ~= '' then
-		text = text.."Username: "..user.data.username:upper().."\n\n"
+		text = text.."نام کاربری: "..user.data.username:upper().."\n\n"
 	else
-		text = text.."Username: "..user.data.username:upper().."\n"
+		text = text.."نام کاربری: "..user.data.username:upper().."\n"
 	end
 	if user.data.bio ~= '' then
 		text = text..user.data.bio.."\n\n"
 	end
 	if user.data.full_name ~= '' then
-		text = text.."Name: "..user.data.full_name.."\n"
+		text = text.."نام: "..user.data.full_name.."\n"
 	end
-	text = text.."Media Count: "..user.data.counts.media.."\n"
-	text = text.."Following: "..user.data.counts.follows.."\n"
-	text = text.."Followers: "..user.data.counts.followed_by.."\n"
+	text = text.."تعداد رسانه: "..user.data.counts.media.."\n"
+	text = text.."دنبال شونده ها: "..user.data.counts.follows.."\n"
+	text = text.."دنبال کننده ها: "..user.data.counts.followed_by.."\n"
 	if user.data.website ~= '' then
 		text = text.."Website: "..user.data.website.."\n"
 	end
@@ -149,20 +149,20 @@ local function instagramMedia(msg, query)
     end
 	local jdat = json:decode(jstr)
 	if jdat.meta.error_message then
-		send_msg(receiver,"#Error\n"..jdat.meta.error_type.."\n"..jdat.meta.error_message,ok_cb,false)
+		send_msg(receiver,"#خطا\n"..jdat.meta.error_type.."\n"..jdat.meta.error_message,ok_cb,false)
 	end
 	local text = ''
 	local data = ''
 	if jdat.data.caption then
 	      data = jdat.data.caption
-	      text = text.."Username: "..data.from.username:upper().."\n\n"
+	      text = text.."نام کاربری: "..data.from.username:upper().."\n\n"
 		  text = text..data.from.full_name.."\n\n"
 		  text = text..data.text.."\n\n"
-		  text = text.."Like Count: "..jdat.data.likes.count.."\n"
+		  text = text.."تعداد لایک: "..jdat.data.likes.count.."\n"
     else
-	      text = text.."Username: "..jdat.data.user.username:upper().."\n"
-		  text = text.."Name: "..jdat.data.user.full_name.."\n"
-		  text = text.."Like Count: "..jdat.data.likes.count.."\n"
+	      text = text.."نام کاربری: "..jdat.data.user.username:upper().."\n"
+		  text = text.."نام : "..jdat.data.user.full_name.."\n"
+		  text = text.."تعداد لایک: "..jdat.data.likes.count.."\n"
 	end
 	text = text
 	send_msg(receiver,text,ok_cb,false)
