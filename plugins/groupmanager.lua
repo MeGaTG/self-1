@@ -72,7 +72,7 @@ local function run(msg, matches)
             return
         end
     elseif matches[1] == 'newlink' then
-        if permissions(msg.from.id, msg.to.id, "setlink") then
+        if permissions(msg.from.id, msg.to.id, "newlink") then
         	local receiver = get_receiver(msg)
             local hash = 'link:'..msg.to.id
     		local function cb(extra, success, result)
@@ -80,7 +80,7 @@ local function run(msg, matches)
     				redis:set(hash, result)
     			end
 	            if success == 0 then
-	                return send_large_msg(receiver, 'Error*\nnewlink not saved\nYou are not the group administrator', ok_cb, true)
+	                return send_large_msg(receiver, 'Error*\nnewlink not saved\nSoLiD Is Not Group Creator', ok_cb, true)
 	            end
     		end
     		if msg.to.type == 'chat' then
@@ -98,6 +98,19 @@ local function run(msg, matches)
             return
         else
             return '?? '..lang_text(msg.to.id, 'require_admin')
+        end
+elseif matches[1] == 'setlink' then
+        if permissions(msg.from.id, msg.to.id, "setlink") then
+            hash = 'link:'..msg.to.id
+            redis:set(hash, matches[2])
+            if msg.to.type == 'chat' then
+                    send_msg('chat#id'..msg.to.id, 'Link Has Been Setted', ok_cb, true)
+            elseif msg.to.type == 'channel' then
+                    send_msg('channel#id'..msg.to.id, 'Link Has Been Setted', ok_cb, true)
+            end
+            return
+        else
+            return 'ðŸš« '..lang_text(msg.to.id, 'require_admin')
         end
     elseif matches[1] == 'link' then
         if permissions(msg.from.id, msg.to.id, "link") then
@@ -128,7 +141,7 @@ local function run(msg, matches)
         else
             return 'Error !'
         end
-            elseif matches[1] == 'rmv' then
+            elseif matches[1] == 'kick' then
         if permissions(msg.from.id, msg.to.id, "kick") then
             local chat_id = msg.to.id
             local chat_type = msg.to.type
@@ -149,7 +162,7 @@ local function run(msg, matches)
                 end
             end
         end
-            elseif matches[1] == 'add' then
+            elseif matches[1] == 'inv' then
         if permissions(msg.from.id, msg.to.id, "add") then
             local chat_id = msg.to.id
             local chat_type = msg.to.type
@@ -184,15 +197,16 @@ end
 end
 return {
     patterns = {
-        '^#(setname) (.*)$',
-        '^#(link)$',
-        '^#(newlink)$',
-        '^#(tosuper)$',
-        '^#(setdes) (.*)$',
-        "^#(rmv)$",
-        "^#(rmv) (.*)$",
-        "^#(add)$",
-        "^#(add) (.*)$",
+        '^[!/#](setname) (.*)$',
+        '^[!/#](link)$',
+        '^[!/#](newlink)$',
+        '^[!/#](setlink) (.*)$',
+        '^[!/#](tosuper)$',
+        '^[!/#](setdes) (.*)$',
+        "^[!/#](kick)$",
+        "^[!/#](kick) (.*)$",
+        "^[!/#](inv)$",
+        "^[!/#](inv) (.*)$",
     },
     run = run
 }
