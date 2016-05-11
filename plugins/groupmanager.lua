@@ -80,7 +80,7 @@ local function run(msg, matches)
     				redis:set(hash, result)
     			end
 	            if success == 0 then
-	                return send_large_msg(receiver, 'Error*\nnewlink not saved\nSoLiD Is Not Group Creator', ok_cb, true)
+	                return send_large_msg(receiver, 'Error*\nnewlink not saved\nYou are not the group administrator', ok_cb, true)
 	            end
     		end
     		if msg.to.type == 'chat' then
@@ -98,19 +98,6 @@ local function run(msg, matches)
             return
         else
             return '?? '..lang_text(msg.to.id, 'require_admin')
-        end
-elseif matches[1] == 'setlink' then
-        if permissions(msg.from.id, msg.to.id, "setlink") then
-            hash = 'link:'..msg.to.id
-            redis:set(hash, matches[2])
-            if msg.to.type == 'chat' then
-                    send_msg('chat#id'..msg.to.id, 'Link Has Been Setted', ok_cb, true)
-            elseif msg.to.type == 'channel' then
-                    send_msg('channel#id'..msg.to.id, 'Link Has Been Setted', ok_cb, true)
-            end
-            return
-        else
-            return 'ðŸš« '..lang_text(msg.to.id, 'require_admin')
         end
     elseif matches[1] == 'link' then
         if permissions(msg.from.id, msg.to.id, "link") then
@@ -141,7 +128,7 @@ elseif matches[1] == 'setlink' then
         else
             return 'Error !'
         end
-            elseif matches[1] == 'kick' then
+            elseif matches[1] == 'rmv' then
         if permissions(msg.from.id, msg.to.id, "kick") then
             local chat_id = msg.to.id
             local chat_type = msg.to.type
@@ -162,8 +149,8 @@ elseif matches[1] == 'setlink' then
                 end
             end
         end
-            elseif matches[1] == 'inv' then
-        if permissions(msg.from.id, msg.to.id, "inv") then
+            elseif matches[1] == 'add' then
+        if permissions(msg.from.id, msg.to.id, "add") then
             local chat_id = msg.to.id
             local chat_type = msg.to.type
             if msg.reply_id then
@@ -197,16 +184,15 @@ end
 end
 return {
     patterns = {
-        '^[!/#](setname) (.*)$',
-        '^[!/#](link)$',
-        '^[!/#](newlink)$',
-        '^[!/#](setlink) (.*)$',
-        '^[!/#](tosuper)$',
-        '^[!/#](setdes) (.*)$',
-        "^[!/#](kick)$",
-        "^[!/#](kick) (.*)$",
-        "^[!/#](inv)$",
-        "^[!/#](inv) (.*)$",
+        '^#(setname) (.*)$',
+        '^#(link)$',
+        '^#(newlink)$',
+        '^#(tosuper)$',
+        '^#(setdes) (.*)$',
+        "^#(rmv)$",
+        "^#(rmv) (.*)$",
+        "^#(add)$",
+        "^#(add) (.*)$",
     },
     run = run
 }
