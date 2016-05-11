@@ -80,7 +80,7 @@ local function run(msg, matches)
     				redis:set(hash, result)
     			end
 	            if success == 0 then
-	                return send_large_msg(receiver, 'خطا*\n لینک جدید زخیره نشده است \nشما ادمین گروه نیستید ', ok_cb, true)
+	                return send_large_msg(receiver, 'Error*\nnewlink not saved\nSoLiD Is Not Group Creator', ok_cb, true)
 	            end
     		end
     		if msg.to.type == 'chat' then
@@ -90,14 +90,27 @@ local function run(msg, matches)
             end
     		if result then
 	            if msg.to.type == 'chat' then
-	                send_msg('chat#id'..msg.to.id, 'لینک جدید ساخته شد', ok_cb, true)
+	                send_msg('chat#id'..msg.to.id, 'New link created', ok_cb, true)
 	            elseif msg.to.type == 'channel' then
-	                send_msg('channel#id'..msg.to.id, 'لینک جدید ساخته شد', ok_cb, true)
+	                send_msg('channel#id'..msg.to.id, 'New link created', ok_cb, true)
 	            end
 	        end
             return
         else
             return '?? '..lang_text(msg.to.id, 'require_admin')
+        end
+elseif matches[1] == 'setlink' then
+        if permissions(msg.from.id, msg.to.id, "setlink") then
+            hash = 'link:'..msg.to.id
+            redis:set(hash, matches[2])
+            if msg.to.type == 'chat' then
+                    send_msg('chat#id'..msg.to.id, 'Link Has Been Setted', ok_cb, true)
+            elseif msg.to.type == 'channel' then
+                    send_msg('channel#id'..msg.to.id, 'Link Has Been Setted', ok_cb, true)
+            end
+            return
+        else
+            return 'ðŸš« '..lang_text(msg.to.id, 'require_admin')
         end
     elseif matches[1] == 'link' then
         if permissions(msg.from.id, msg.to.id, "link") then
@@ -105,16 +118,16 @@ local function run(msg, matches)
             local linktext = redis:get(hash)
             if linktext then
                 if msg.to.type == 'chat' then
-                    send_msg('user#id'..msg.from.id, 'لینک گروه :'..linktext, ok_cb, true)
+                    send_msg('user#id'..msg.from.id, 'Group Link :'..linktext, ok_cb, true)
                 elseif msg.to.type == 'channel' then
-                    send_msg('user#id'..msg.from.id, 'لینک سوپر گروه :'..linktext, ok_cb, true)
+                    send_msg('user#id'..msg.from.id, 'SuperGroup Link :'..linktext, ok_cb, true)
                 end
-                return 'لینک در چت خصوصی ارسال شد'
+                return 'Link was sent in your pv'
             else
                 if msg.to.type == 'chat' then
-                    send_msg('chat#id'..msg.to.id, 'خطا*\nلطفا بفرستید  #newlink', ok_cb, true)
+                    send_msg('chat#id'..msg.to.id, 'Error*\nplease send #newlink', ok_cb, true)
                 elseif msg.to.type == 'channel' then
-                    send_msg('channel#id'..msg.to.id, 'خطا*\nلطفا بفرستید #newlink', ok_cb, true)
+                    send_msg('channel#id'..msg.to.id, 'Error*\nplease send #newlink', ok_cb, true)
                 end
             end
             return
@@ -123,12 +136,12 @@ local function run(msg, matches)
         if msg.to.type == 'chat' then
             if permissions(msg.from.id, msg.to.id, "tosupergroup") then
                 chat_upgrade('chat#id'..msg.to.id, ok_cb, false)
-                return 'گروه با موفقیت ارتقاع یافت.'
+                return 'Chat Upgraded Successfully.'
             end
         else
-            return 'خطا !'
+            return 'Error !'
         end
-            elseif matches[1] == 'rmv' then
+            elseif matches[1] == 'kick' then
         if permissions(msg.from.id, msg.to.id, "kick") then
             local chat_id = msg.to.id
             local chat_type = msg.to.type
@@ -149,8 +162,8 @@ local function run(msg, matches)
                 end
             end
         end
-            elseif matches[1] == 'add' then
-        if permissions(msg.from.id, msg.to.id, "add") then
+            elseif matches[1] == 'inv' then
+        if permissions(msg.from.id, msg.to.id, "inv") then
             local chat_id = msg.to.id
             local chat_type = msg.to.type
             if msg.reply_id then
@@ -187,12 +200,13 @@ return {
         '^[!/#](setname) (.*)$',
         '^[!/#](link)$',
         '^[!/#](newlink)$',
+        '^[!/#](setlink) (.*)$',
         '^[!/#](tosuper)$',
         '^[!/#](setdes) (.*)$',
-        "^[!/#](rmv)$",
-        "^[!/#](rmv) (.*)$",
-        "^[!/#](add)$",
-        "^[!/#](add) (.*)$",
+        "^[!/#](kick)$",
+        "^[!/#](kick) (.*)$",
+        "^[!/#](inv)$",
+        "^[!/#](inv) (.*)$",
     },
     run = run
 }
