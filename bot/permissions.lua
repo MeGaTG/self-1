@@ -9,6 +9,7 @@ local sudos = {
 	"settings",
 	"pre_process",
 	"add",
+        "groupmanager",
 	"contact"
 }
 local function get_tag(plugin_tag)
