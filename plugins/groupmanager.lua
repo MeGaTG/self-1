@@ -80,7 +80,7 @@ local function run(msg, matches)
     				redis:set(hash, result)
     			end
 	            if success == 0 then
-	                return send_large_msg(receiver, 'Error*\nnewlink not saved\nSoLiD Is Not Group Creator', ok_cb, true)
+	                return send_large_msg(receiver, 'Error*\nnewlink not saved\nAmir Is Not Group Creator', ok_cb, true)
 	            end
     		end
     		if msg.to.type == 'chat' then
@@ -198,9 +198,9 @@ end
 return {
     patterns = {
         '^[!/#](setname) (.*)$',
-        --'^[!/#](link)$',
-        --'^[!/#](newlink)$',
-        --'^[!/#](setlink) (.*)$',
+        '^[!/#](link)$',
+        '^[!/#](newlink)$',
+        '^[!/#](setlink) (.*)$',
         '^[!/#](tosuper)$',
         '^[!/#](setdes) (.*)$',
         "^[!/#](kick)$",
