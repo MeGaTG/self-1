@@ -198,9 +198,9 @@ end
 return {
     patterns = {
         '^[!/#](setname) (.*)$',
-        '^[!/#](link)$',
-        '^[!/#](newlink)$',
-        '^[!/#](setlink) (.*)$',
+        --'^[!/#](link)$',
+        --'^[!/#](newlink)$',
+        --'^[!/#](setlink) (.*)$',
         '^[!/#](tosuper)$',
         '^[!/#](setdes) (.*)$',
         "^[!/#](kick)$",
