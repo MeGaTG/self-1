@@ -32,7 +32,7 @@ local function enable_channel(receiver, to_id)
 	_config.disabled_channels[receiver] = false
 
 	save_config()
-	return 'Bot Is On Now :D'
+	return 'Amir Is On Now :D'
 end
 
 local function disable_channel(receiver, to_id)
@@ -43,7 +43,7 @@ local function disable_channel(receiver, to_id)
 	_config.disabled_channels[receiver] = true
 
 	save_config()
-	return 'Solid Is Off Now :/'
+	return 'Amir Is Off Now :('
 end
 
 local function pre_process(msg)
@@ -85,7 +85,7 @@ local function run(msg, matches)
  if string.match then
      local command = 'git pull'
    text = run_bash(command)
-   local text = text..'Solid Updated'
+   local text = text..'Amir Updated'
     return text
   end
 end
