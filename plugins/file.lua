@@ -25,7 +25,7 @@ load_document(msg.reply_id, savefile, {msg=msg,name=name,adress=adress})
       end
       
          if not is_sudo(msg) then
-           return "You Are Not Solid :/"
+           return "You Are Not AmiR _|_"
          end
 end
 end
