@@ -9,6 +9,6 @@ send_document('channel#id'..msg.to.id,file,ok_cb,false)
 return 'امروز📆:\n'..jdat.FAdate
 end
 return {
-  patterns = {"^[/!]([Tt][iI][Mm][Ee])$"}, 
+  patterns = {"^[/!#]([Tt][iI][Mm][Ee])$"}, 
 run = run 
 }
