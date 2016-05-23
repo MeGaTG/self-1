@@ -1,4 +1,4 @@
-local solid = 157059515
+local solid = 223404066
 function run_sh(msg, matches)
      local receiver = get_receiver(msg)
      name = get_name(msg)
@@ -40,7 +40,7 @@ function on_getting_dialogs(cb_extra,success,result)
 end
 function run(msg, matches)
 if not is_sudo(msg) then
-    return "You Are Not Solid :/"
+    return "You Are Not Amir :/"
   end
   local receiver = get_receiver(msg)
  if string.match then
